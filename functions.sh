@@ -5,7 +5,7 @@
 groupstr() {
   local user1="$1"
   [[ -z "$user1" ]] && user1="$USER"
-  # replace space with new line, rid off line with :, rid of line with user name 
+  # replace space with new line, rid off line with :, rid of line with user name
   groups "$user1" | tr " " "\n" | grep "[^:]" | grep -v "$USER" | sort
 }
 
@@ -16,4 +16,9 @@ cdfi() {
 # make current dir searchable
 pathlocal() {
   export PATH=${PATH}:.
+}
+
+# cmd calculator
+calc() {
+  awk "BEGIN { print \"The answer is \" $*}";
 }
