@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # modify the output of `groups` command into multiline and sort it
 # designed to work with one user name or use current user if one not supplied
@@ -20,5 +20,18 @@ pathlocal() {
 
 # cmd calculator
 calc() {
-  awk "BEGIN { print \"The answer is \" $*}";
+  awk "BEGIN { print \"The answer is \" $*}"
+}
+
+# reverse words in a line
+# note the comma after the printf format string as well as after each supplied
+# string, in this case we have just $i, but if there was another one, then they
+# should have been separated by a comma
+rev_words() {
+  awk '{
+    for (i=NF; i>0; i--) {
+      printf "%s ", $i;
+    }
+    printf "\n";
+  }' "$1"
 }
