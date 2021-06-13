@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+if (($# < 1)); then
+
+  pod2usage print_paragraph
+  exit 1
+
+fi
+
+awk -v pattern_="$1" '
+  $0 ~ pattern_ { flag=1 }
+  flag == 1 { print }
+  /^[[:blank:]]*$/ { flag=0 }
+' "$2"
+
+: <<'END_OF_DOCS'
+print only the paragraph after found phrase
+could be a good companion with ls -lR when only one
+folder is of interest and we do not know exact path
+$1 is the search term and $2 is the stream
+
+=head1 NAME
+
+Print Paragraph that Has a Matching String
+
+=head1 SYNOPSIS
+
+print_paragraph pattern text-input
+
+=head1 DESCRIPTION
+
+Print only the paragraph after found pattern in text-input. Could be a good
+companion with ls -lR when only one folder is of interest and we do not know the
+exact path. Pattern is the search term and text-input is the text stream.
+
+=cut
+
+END_OF_DOCS
