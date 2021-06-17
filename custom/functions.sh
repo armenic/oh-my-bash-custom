@@ -36,3 +36,9 @@ rev_words() {
   }' "$1"
 }
 
+# list s3 buckets
+als() {
+  aws s3 ls --recursive
+}
+
+
