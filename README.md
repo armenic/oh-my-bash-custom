@@ -7,6 +7,10 @@
 OSH_CUSTOM=~/oh-my-bash-custom/custom
 export PATH=${PATH}:~/oh-my-bash-custom/mybin
 ```
+- change the following for the best python experience
+```bash
+OSH_THEME="bobby-python"
+```
 
 ## Contributions are welcome
 - please make a pull request
