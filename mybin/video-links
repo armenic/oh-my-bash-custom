@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-# looks for common video formats in Pictures folder and create links in links
-# folder
-# replaces / and space with _ to create links
+# looks for common video formats in look_folder folder and create links in
+# save_folder folder
+# replaces /, single quote, space with _ to create links
 
 look_folder="Pictures"
 save_folder="links/"
 
-rm -rf links
-mkdir links
+rm -rf "$save_folder"
+mkdir "$save_folder"
 
 find "$look_folder" -regextype awk -iregex '.*\.(mp4|avi|3gp|mpeg|wmv)' -type f |
 
