@@ -2,15 +2,17 @@
 
 # looks for common video formats in look_folder folder and create links in
 # save_folder folder
-# replaces /, single quote, space with _ to create links
+# replaces some chars with _ to create links
 
-look_folder="Pictures"
-save_folder="links/"
+look_folder="."
+save_folder="zzz__links__zzz"
 
 rm -rf "$save_folder"
 mkdir "$save_folder"
 
-find "$look_folder" -regextype awk -iregex '.*\.(mp4|avi|3gp|mpeg|wmv)' -type f |
+# find in look_folder, exclude save_folder, -false prevent printing save_folder
+find "$look_folder" -path "./$save_folder" -prune -false -o -type f \
+ -regextype awk -iregex '.*\.(mp4|avi|3gp|mpeg|wmv)' |
 
 awk -v save_folder="$save_folder" '
 # need a non-existent field separator so that awk does not split on spaces
@@ -18,11 +20,12 @@ awk -v save_folder="$save_folder" '
 BEGIN { FS = ":"}
 # need a copy of file name build a link name
 { $2 = $1 }
-# replace /, single quote, 1 or more spaces with _
+# replace ./, /, single quote, 1 or more spaces with _
+{ gsub("\./", "", $2) }
 { gsub("/", "_", $2) }
-{ gsub(" +", "_", $2) }
 { gsub("\047", "_", $2) }
-{ print "\"" $1 "\"", save_folder $2}
+{ gsub(" +", "_", $2) }
+{ print "\"" $1 "\"", save_folder "/" $2}
 ' |
 
 xargs -L 1 ln
