@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Resets file names in a current directory to a sequential names,
+#  e.g. r0001.yaml, r0002.yaml, etc.
+# This is helpful in case a gap of file names was created.
+# 
+# usage: 
+#  reset_files <extension>
+# example:
+#  reset_files yaml
+
+temp_dir=$(mktemp -d)
+find . -type f -name "*.$1" -fprintf "${temp_dir}/names_to_rename" '%f\n'
+mv -- *.yaml "$temp_dir"
+awk -v temp_dir="$temp_dir" -v ext=$1 '{
+    printf "%s/%s ./r%04d.%s\n", temp_dir, $0, NR, ext
+}' "${temp_dir}/names_to_rename" | xargs -L 1 mv
+
